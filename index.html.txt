@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ME06 Social Boost - Grow Your Social Media Smartly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#ec4899',
+                        accent: '#8b5cf6',
+                        dark: '#0f172a',
+                        darker: '#020617'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'gradient-x': 'gradientX 15s ease infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        gradientX: {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(-45deg, #6366f1, #ec4899, #8b5cf6, #6366f1);
+            background-size: 400% 400%;
+            animation: gradientX 15s ease infinite;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.3);
+        }
+        
+        .tool-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.6s ease-out forwards;
+        }
+        
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ec4899;
+        }
+        
+        .platform-btn.active {
+            ring-width: 2px;
+            ring-color: currentColor;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-darker text-gray-900 dark:text-white transition-colors duration-300 overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                        M
+                    </div>
+                    <span class="text-2xl font-bold gradient-text">ME06</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#tools" class="hover:text-primary transition-colors">Growth Tools</a>
+                    <a href="#hashtags" class="hover:text-primary transition-colors">Hashtags</a>
+                    <a href="#calculator" class="hover:text-primary transition-colors">Calculator</a>
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                    </button>
+                </div>
+                
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden glass border-t border-gray-200 dark:border-gray-800">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="#tools" class="block py-2 hover:text-primary">Growth Tools</a>
+                <a href="#hashtags" class="block py-2 hover:text-primary">Hashtags</a>
+                <a href="#calculator" class="block py-2 hover:text-primary">Calculator</a>
+                <button onclick="toggleDarkMode()" class="w-full text-left py-2 flex items-center space-x-2">
+                    <span>Toggle Theme</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-40 -left-40 w-80 h-80 bg-primary/30 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute top-1/2 right-0 w-96 h-96 bg-secondary/30 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+            <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-accent/30 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 4s;"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="animate-slide-up">
+                <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass mb-6 border border-primary/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span class="text-sm font-medium">Trusted by 10,000+ Creators</span>
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                    Grow Your Social Media
+                    <span class="gradient-text block mt-2">Smartly</span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto">
+                    AI-powered tools to boost your presence on TikTok, Instagram, and Facebook. Maximize engagement, find trending hashtags, and analyze your growth.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                    <button onclick="scrollToSection('tools')" class="px-8 py-4 gradient-bg text-white rounded-full font-semibold text-lg hover:shadow-lg hover:scale-105 transition-all flex items-center justify-center space-x-2 group">
+                        <span>Get Started Free</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                    <button onclick="scrollToSection('features')" class="px-8 py-4 glass rounded-full font-semibold text-lg hover:bg-white/10 transition-all border border-gray-300 dark:border-gray-700">
+                        Learn More
+                    </button>
+                </div>
+
+                <!-- Platform Buttons -->
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="selectPlatform('tiktok')" class="platform-btn group flex items-center space-x-3 px-6 py-3 rounded-2xl glass hover:bg-black/5 dark:hover:bg-white/5 transition-all border-2 border-transparent hover:border-pink-500/50">
+                        <i class="fab fa-tiktok text-2xl text-pink-500 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-semibold">TikTok</span>
+                    </button>
+                    <button onclick="selectPlatform('instagram')" class="platform-btn group flex items-center space-x-3 px-6 py-3 rounded-2xl glass hover:bg-black/5 dark:hover:bg-white/5 transition-all border-2 border-transparent hover:border-purple-500/50">
+                        <i class="fab fa-instagram text-2xl text-purple-500 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-semibold">Instagram</span>
+                    </button>
+                    <button onclick="selectPlatform('facebook')" class="platform-btn group flex items-center space-x-3 px-6 py-3 rounded-2xl glass hover:bg-black/5 dark:hover:bg-white/5 transition-all border-2 border-transparent hover:border-blue-500/50">
+                        <i class="fab fa-facebook text-2xl text-blue-500 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-semibold">Facebook</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold gradient-text counter" data-target="10000">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Active Users</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold gradient-text counter" data-target="5000000">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Followers Gained</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold gradient-text counter" data-target="98">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">% Success Rate</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold gradient-text counter" data-target="24">0</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">/7 Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section id="features" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Powerful Growth Tools</h2>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Everything you need to accelerate your social media growth in one place</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="tool-card glass rounded-3xl p-8 card-hover border border-gray-200 dark:border-gray-800" style="animation-delay: 0.1s;">
+                    <div class="w-14 h-14 gradient-bg rounded-2xl flex items-center justify-center text-white text-2xl mb-6">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Smart Analytics</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Track your growth with detailed insights and personalized recommendations for optimal posting times.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="tool-card glass rounded-3xl p-8 card-hover border border-gray-200 dark:border-gray-800" style="animation-delay: 0.2s;">
+                    <div class="w-14 h-14 gradient-bg rounded-2xl flex items-center justify-center text-white text-2xl mb-6">
+                        <i class="fas fa-hashtag"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Hashtag Generator</h3>
+                    <p class="text-gray-600 dark:text-gray-400">AI-powered hashtag suggestions tailored to your niche and target audience for maximum reach.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="tool-card glass rounded-3xl p-8 card-hover border border-gray-200 dark:border-gray-800" style="animation-delay: 0.3s;">
+                    <div class="w-14 h-14 gradient-bg rounded-2xl flex items-center justify-center text-white text-2xl mb-6">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Engagement Calculator</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Calculate your engagement rate and benchmark against industry standards to optimize content.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Follower Growth Tools -->
+    <section id="tools" class="py-20 bg-white dark:bg-dark relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent"></div>
+        
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">Follower Growth Tools</h2>
+                <p class="text-gray-600 dark:text-gray-400">Get personalized growth strategies for your account</p>
+            </div>
+
+            <div class="glass rounded-3xl p-8 md:p-12 border border-gray-200 dark:border-gray-800 shadow-2xl">
+                <form id="growthForm" class="space-y-6" onsubmit="generateGrowthPlan(event)">
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- Platform Selection -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-3">Platform</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button type="button" onclick="setGrowthPlatform('tiktok')" class="platform-select-btn p-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-pink-500 transition-all text-center" data-platform="tiktok">
+                                    <i class="fab fa-tiktok text-pink-500 text-xl mb-1"></i>
+                                    <div class="text-xs">TikTok</div>
+                                </button>
+                                <button type="button" onclick="setGrowthPlatform('instagram')" class="platform-select-btn p-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-purple-500 transition-all text-center" data-platform="instagram">
+                                    <i class="fab fa-instagram text-purple-500 text-xl mb-1"></i>
+                                    <div class="text-xs">Instagram</div>
+                                </button>
+                                <button type="button" onclick="setGrowthPlatform('facebook')" class="platform-select-btn p-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 transition-all text-center" data-platform="facebook">
+                                    <i class="fab fa-facebook text-blue-500 text-xl mb-1"></i>
+                                    <div class="text-xs">Facebook</div>
+                                </button>
+                            </div>
+                            <input type="hidden" id="selectedPlatform" required>
+                        </div>
+
+                        <!-- Username -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-3">Username</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-400">@</span>
+                                <input type="text" id="username" placeholder="yourusername" class="w-full pl-8 pr-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" required>
+                            </div>
+                        </div>
+
+                        <!-- Category -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-3">Content Category</label>
+                            <select id="category" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" required>
+                                <option value="">Select category...</option>
+                                <option value="fashion">Fashion & Style</option>
+                                <option value="tech">Technology</option>
+                                <option value="food">Food & Cooking</option>
+                                <option value="fitness">Fitness & Health</option>
+                                <option value="travel">Travel & Lifestyle</option>
+                                <option value="gaming">Gaming</option>
+                                <option value="business">Business & Finance</option>
+                                <option value="education">Education</option>
+                                <option value="entertainment">Entertainment</option>
+                                <option value="art">Art & Design</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 gradient-bg text-white rounded-xl font-bold text-lg hover:shadow-lg hover:scale-[1.02] transition-all flex items-center justify-center space-x-2">
+                        <i class="fas fa-magic"></i>
+                        <span>Generate Growth Plan</span>
+                    </button>
+                </form>
+
+                <!-- Results -->
+                <div id="growthResults" class="hidden mt-8 space-y-6 animate-slide-up">
+                    <div class="h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent"></div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- Best Hashtags -->
+                        <div class="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-2xl p-6 border border-pink-100 dark:border-pink-800">
+                            <div class="flex items-center space-x-2 mb-4">
+                                <i class="fas fa-hashtag text-pink-500"></i>
+                                <h3 class="font-bold">Best Hashtags</h3>
+                            </div>
+                            <div id="suggestedHashtags" class="flex flex-wrap gap-2"></div>
+                        </div>
+
+                        <!-- Posting Times -->
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl p-6 border border-blue-100 dark:border-blue-800">
+                            <div class="flex items-center space-x-2 mb-4">
+                                <i class="fas fa-clock text-blue-500"></i>
+                                <h3 class="font-bold">Best Posting Times</h3>
+                            </div>
+                            <ul id="postingTimes" class="space-y-2 text-sm"></ul>
+                        </div>
+
+                        <!-- Content Ideas -->
+                        <div class="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-2xl p-6 border border-green-100 dark:border-green-800">
+                            <div class="flex items-center space-x-2 mb-4">
+                                <i class="fas fa-lightbulb text-green-500"></i>
+                                <h3 class="font-bold">Content Ideas</h3>
+                            </div>
+                            <ul id="contentIdeas" class="space-y-2 text-sm"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hashtag Generator -->
+    <section id="hashtags" class="py-20 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">AI Hashtag Generator</h2>
+                <p class="text-gray-600 dark:text-gray-400">Generate trending hashtags instantly</p>
+            </div>
+
+            <div class="glass rounded-3xl p-8 border border-gray-200 dark:border-gray-800 shadow-2xl">
+                <div class="flex flex-col md:flex-row gap-4 mb-8">
+                    <div class="flex-1 relative">
+                        <input type="text" id="hashtagKeyword" placeholder="Enter a keyword (e.g., fitness, travel, food)" 
+                            class="w-full px-6 py-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-lg"
+                            onkeypress="if(event.key==='Enter')generateHashtags()">
+                        <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <select id="hashtagPlatform" class="px-6 py-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:border-primary outline-none">
+                        <option value="tiktok">TikTok</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="facebook">Facebook</option>
+                    </select>
+                    <button onclick="generateHashtags()" class="px-8 py-4 gradient-bg text-white rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all whitespace-nowrap">
+                        Generate
+                    </button>
+                </div>
+
+                <div id="hashtagResults" class="hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-lg">Generated Hashtags</h3>
+                        <button onclick="copyHashtags()" class="text-sm text-primary hover:text-secondary flex items-center space-x-1">
+                            <i class="fas fa-copy"></i>
+                            <span>Copy All</span>
+                        </button>
+                    </div>
+                    <div id="hashtagList" class="flex flex-wrap gap-3"></div>
+                    
+                    <div class="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-info-circle text-yellow-600 mt-1"></i>
+                            <div class="text-sm text-yellow-800 dark:text-yellow-200">
+                                <strong>Pro Tip:</strong> Use a mix of popular (1M+ posts), medium (100K-1M), and niche (<100K) hashtags for best reach.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Engagement Calculator -->
+    <section id="calculator" class="py-20 bg-white dark:bg-dark relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">Engagement Rate Calculator</h2>
+                <p class="text-gray-600 dark:text-gray-400">Measure your social media performance</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Input Form -->
+                <div class="glass rounded-3xl p-8 border border-gray-200 dark:border-gray-800">
+                    <h3 class="text-xl font-bold mb-6">Enter Your Stats</h3>
+                    <form onsubmit="calculateEngagement(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Total Followers</label>
+                            <input type="number" id="calcFollowers" placeholder="e.g., 10000" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:border-primary outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Average Likes per Post</label>
+                            <input type="number" id="calcLikes" placeholder="e.g., 500" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:border-primary outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Average Comments per Post</label>
+                            <input type="number" id="calcComments" placeholder="e.g., 50" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:border-primary outline-none" required>
+                        </div>
+                        <button type="submit" class="w-full py-3 gradient-bg text-white rounded-xl font-bold hover:shadow-lg transition-all">
+                            Calculate Rate
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Results -->
+                <div class="glass rounded-3xl p-8 border border-gray-200 dark:border-gray-800 flex flex-col justify-center" id="calcResultsContainer">
+                    <div id="calcEmpty" class="text-center text-gray-500">
+                        <i class="fas fa-calculator text-6xl mb-4 opacity-30"></i>
+                        <p>Enter your stats to see your engagement rate</p>
+                    </div>
+                    
+                    <div id="calcResults" class="hidden space-y-6">
+                        <div class="text-center">
+                            <div class="text-6xl font-bold gradient-text mb-2" id="engagementRate">0%</div>
+                            <div class="text-gray-600 dark:text-gray-400">Engagement Rate</div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                                <span class="text-sm">Performance Rating</span>
+                                <span id="performanceRating" class="font-bold px-3 py-1 rounded-full text-sm">-</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                                <span class="text-sm">Total Engagement</span>
+                                <span id="totalEngagement" class="font-bold">-</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                                <span class="text-sm">Industry Average</span>
+                                <span class="font-bold text-gray-600">3-6%</span>
+                            </div>
+                        </div>
+
+                        <div id="improvementTips" class="p-4 bg-primary/10 rounded-xl border border-primary/20">
+                            <h4 class="font-bold mb-2 flex items-center space-x-2">
+                                <i class="fas fa-lightbulb text-primary"></i>
+                                <span>Tips to Improve</span>
+                            </h4>
+                            <ul class="text-sm space-y-1 text-gray-700 dark:text-gray-300" id="tipsList"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-dark border-t border-gray-200 dark:border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center text-white font-bold">M</div>
+                    <span class="text-xl font-bold gradient-text">ME06 Social Boost</span>
+                </div>
+                
+                <div class="flex space-x-6 text-gray-600 dark:text-gray-400">
+                    <a href="#" class="hover:text-primary transition-colors"><i class="fab fa-twitter text-xl"></i></a>
+                    <a href="#" class="hover:text-primary transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+                    <a href="#" class="hover:text-primary transition-colors"><i class="fab fa-tiktok text-xl"></i></a>
+                    <a href="#" class="hover:text-primary transition-colors"><i class="fab fa-youtube text-xl"></i></a>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800 text-center text-gray-600 dark:text-gray-400 text-sm">
+                <p>&copy; 2024 ME06 Social Boost. All rights reserved. Grow your social media smartly.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        // Check saved theme
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Smooth Scroll
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Platform Selection
+        let selectedPlatform = '';
+        
+        function selectPlatform(platform) {
+            selectedPlatform = platform;
+            document.querySelectorAll('.platform-btn').forEach(btn => {
+                btn.classList.remove('active', 'ring-2', 'ring-offset-2');
+                if(btn.textContent.toLowerCase().includes(platform)) {
+                    btn.classList.add('active', 'ring-2', 'ring-offset-2', 'ring-' + getPlatformColor(platform));
+                }
+            });
+            
+            // Scroll to tools
+            setTimeout(() => scrollToSection('tools'), 300);
+        }
+
+        function getPlatformColor(platform) {
+            const colors = { tiktok: 'pink-500', instagram: 'purple-500', facebook: 'blue-500' };
+            return colors[platform] || 'gray-500';
+        }
+
+        function setGrowthPlatform(platform) {
+            document.getElementById('selectedPlatform').value = platform;
+            document.querySelectorAll('.platform-select-btn').forEach(btn => {
+                btn.classList.remove('border-primary', 'bg-primary/10');
+                btn.classList.add('border-gray-200', 'dark:border-gray-700');
+                if(btn.dataset.platform === platform) {
+                    btn.classList.remove('border-gray-200', 'dark:border-gray-700');
+                    btn.classList.add('border-primary', 'bg-primary/10');
+                }
+            });
+        }
+
+        // Growth Plan Generator
+        function generateGrowthPlan(e) {
+            e.preventDefault();
+            
+            const platform = document.getElementById('selectedPlatform').value;
+            const category = document.getElementById('category').value;
+            
+            if(!platform) {
+                alert('Please select a platform');
+                return;
+            }
+
+            // Simulate API call with loading
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Generate suggestions based on platform and category
+                const suggestions = getSuggestions(platform, category);
+                
+                // Display Hashtags
+                const hashtagContainer = document.getElementById('suggestedHashtags');
+                hashtagContainer.innerHTML = suggestions.hashtags.map(tag => 
+                    `<span class="px-3 py-1 bg-white dark:bg-gray-800 rounded-full text-sm border border-gray-200 dark:border-gray-700 hover:border-primary cursor-pointer transition-colors">#${tag}</span>`
+                ).join('');
+
+                // Display Posting Times
+                const timesContainer = document.getElementById('postingTimes');
+                timesContainer.innerHTML = suggestions.times.map(time => 
+                    `<li class="flex items-center space-x-2"><i class="fas fa-check text-green-500 text-xs"></i><span>${time}</span></li>`
+                ).join('');
+
+                // Display Content Ideas
+                const ideasContainer = document.getElementById('contentIdeas');
+                ideasContainer.innerHTML = suggestions.ideas.map(idea => 
+                    `<li class="flex items-start space-x-2"><i class="fas fa-lightbulb text-yellow-500 text-xs mt-1"></i><span>${idea}</span></li>`
+                ).join('');
+
+                // Show results
+                document.getElementById('growthResults').classList.remove('hidden');
+                
+                // Reset button
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                // Scroll to results
+                document.getElementById('growthResults').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 1500);
+        }
+
+        function getSuggestions(platform, category) {
+            const data = {
+                hashtags: {
+                    fashion: ['OOTD', 'FashionStyle', 'InstaFashion', 'Trendy', 'FashionBlogger', 'StyleInspo'],
+                    tech: ['TechNews', 'Gadgets', 'Innovation', 'Technology', 'TechReview', 'FutureTech'],
+                    food: ['Foodie', 'FoodPorn', 'Recipe', 'Homemade', 'FoodPhotography', 'Yummy'],
+                    fitness: ['FitnessMotivation', 'Workout', 'GymLife', 'HealthyLifestyle', 'FitFam', 'Training'],
+                    travel: ['TravelGram', 'Wanderlust', 'TravelPhotography', 'Adventure', 'TravelBlogger', 'Explore'],
+                    gaming: ['Gaming', 'GamerLife', 'Esports', 'GameStream', 'GamingCommunity', 'PCGaming'],
+                    business: ['Entrepreneur', 'BusinessTips', 'Success', 'Marketing', 'Startup', 'Hustle'],
+                    education: ['Education', 'Learning', 'StudyTips', 'Knowledge', 'OnlineLearning', 'StudyGram'],
+                    entertainment: ['Entertainment', 'Funny', 'Viral', 'Trending', 'Comedy', 'Memes'],
+                    art: ['ArtWork', 'DigitalArt', 'Creative', 'Artist', 'Illustration', 'Design']
+                },
+                times: {
+                    tiktok: ['6:00 AM - 8:00 AM', '12:00 PM - 1:00 PM', '7:00 PM - 9:00 PM'],
+                    instagram: ['11:00 AM - 1:00 PM', '2:00 PM - 3:00 PM', '6:00 PM - 8:00 PM'],
+                    facebook: ['9:00 AM - 11:00 AM', '3:00 PM - 4:00 PM', '8:00 PM - 9:00 PM']
+                },
+                ideas: {
+                    fashion: ['Behind the scenes of your styling process', 'Transition videos with outfit changes', 'Thrift flip transformations'],
+                    tech: ['Unboxing and first impressions', 'Quick tips and tricks tutorials', 'Comparison reviews'],
+                    food: ['Quick recipe time-lapses', 'Secret family recipes', 'Restaurant reviews'],
+                    fitness: ['Workout routine demonstrations', 'Before/after transformations', 'Healthy meal prep ideas'],
+                    travel: ['Hidden gems in popular destinations', 'Travel budget breakdowns', 'Local culture experiences'],
+                    gaming: ['Gameplay highlights', 'Tips for beginners', 'Live streaming moments'],
+                    business: ['Day in the life of entrepreneur', 'Quick business tips', 'Success story sharing'],
+                    education: ['Study with me sessions', 'Quick fact videos', 'Book recommendations'],
+                    entertainment: ['Trending challenges', 'Reaction videos', 'Behind the scenes content'],
+                    art: ['Speed drawing videos', 'Art supply reviews', 'Technique tutorials']
+                }
+            };
+
+            return {
+                hashtags: data.hashtags[category] || data.hashtags.fashion,
+                times: data.times[platform],
+                ideas: data.ideas[category] || data.ideas.entertainment
+            };
+        }
+
+        // Hashtag Generator
+        function generateHashtags() {
+            const keyword = document.getElementById('hashtagKeyword').value.toLowerCase().trim();
+            const platform = document.getElementById('hashtagPlatform').value;
+            
+            if(!keyword) {
+                alert('Please enter a keyword');
+                return;
+            }
+
+            const prefixes = {
+                tiktok: ['viral', 'trending', 'fyp', 'foryou', 'tiktok', 'viralvideo'],
+                instagram: ['insta', 'instagram', 'instadaily', 'instagood', 'photooftheday', 'picoftheday'],
+                facebook: ['fb', 'facebook', 'viral', 'trending', 'social', 'community']
+            };
+
+            const suffixes = ['love', 'life', 'style', 'daily', 'official', 'world', 'hub', 'central', 'daily', 'addict'];
+            
+            const generated = [];
+            
+            // Generate combinations
+            prefixes[platform].forEach(pre => {
+                generated.push(pre + keyword);
+                generated.push(keyword + pre);
+            });
+            
+            suffixes.forEach(suf => {
+                generated.push(keyword + suf);
+            });
+            
+            // Add generic popular tags
+            const popular = ['viral', 'trending', 'explore', 'love', 'follow', 'like', 'share', 'followforfollowback'];
+            generated.push(...popular);
+            
+            // Remove duplicates and shuffle
+            const unique = [...new Set(generated)].sort(() => Math.random() - 0.5).slice(0, 20);
+            
+            const container = document.getElementById('hashtagList');
+            container.innerHTML = unique.map((tag, idx) => 
+                `<span class="px-4 py-2 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full text-sm font-medium border border-primary/20 hover:border-primary cursor-pointer transition-all hover:scale-105" style="animation-delay: ${idx * 0.05}s">#${tag}</span>`
+            ).join('');
+            
+            document.getElementById('hashtagResults').classList.remove('hidden');
+        }
+
+        function copyHashtags() {
+            const tags = Array.from(document.querySelectorAll('#hashtagList span')).map(span => span.textContent).join(' ');
+            navigator.clipboard.writeText(tags).then(() => {
+                alert('Hashtags copied to clipboard!');
+            });
+        }
+
+        // Engagement Calculator
+        function calculateEngagement(e) {
+            e.preventDefault();
+            
+            const followers = parseInt(document.getElementById('calcFollowers').value);
+            const likes = parseInt(document.getElementById('calcLikes').value);
+            const comments = parseInt(document.getElementById('calcComments').value);
+            
+            const totalEngagement = likes + comments;
+            const rate = ((totalEngagement / followers) * 100).toFixed(2);
+            
+            // Animate counter
+            animateValue(document.getElementById('engagementRate'), 0, rate, 1000, '%');
+            
+            document.getElementById('totalEngagement').textContent = totalEngagement.toLocaleString();
+            
+            // Rating
+            let rating, colorClass, tips;
+            if(rate >= 6) {
+                rating = 'Excellent';
+                colorClass = 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+                tips = ['Keep up the great work!', 'Engage with your top fans', 'Collaborate with similar creators'];
+            } else if(rate >= 3) {
+                rating = 'Good';
+                colorClass = 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+                tips = ['Post consistently', 'Use more call-to-actions', 'Respond to comments quickly'];
+            } else if(rate >= 1) {
+                rating = 'Average';
+                colorClass = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+                tips = ['Analyze your best performing content', 'Post at optimal times', 'Use trending hashtags'];
+            } else {
+                rating = 'Needs Improvement';
+                colorClass = 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+                tips = ['Check content quality', 'Engage with other accounts', 'Run a giveaway', 'Analyze audience insights'];
+            }
+            
+            const ratingEl = document.getElementById('performanceRating');
+            ratingEl.textContent = rating;
+            ratingEl.className = `font-bold px-3 py-1 rounded-full text-sm ${colorClass}`;
+            
+            document.getElementById('tipsList').innerHTML = tips.map(tip => `<li>• ${tip}</li>`).join('');
+            
+            document.getElementById('calcEmpty').classList.add('hidden');
+            document.getElementById('calcResults').classList.remove('hidden');
+        }
+
+        // Counter Animation
+        function animateValue(obj, start, end, duration, suffix = '') {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                obj.innerHTML = (suffix === '%' ? (progress * (end - start) + start).toFixed(2) : value.toLocaleString()) + suffix;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Intersection Observer for counters
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.counter');
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.getAttribute('data-target'));
+                        const isPercentage = counter.nextElementSibling && counter.nextElementSibling.textContent.includes('%');
+                        animateValue(counter, 0, target, 2000, isPercentage ? '%' : '+');
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.counter').forEach(counter => {
+            observer.observe(counter.parentElement.parentElement);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if(window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add smooth reveal animations
+            const revealElements = document.querySelectorAll('.tool-card');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+        });
+    </script>
+</body>
+</html>
